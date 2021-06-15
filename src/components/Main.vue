@@ -1,8 +1,8 @@
 <template>
-    <div v-if="ricerca.length == 0">
-        Nessuna ricerca ancora effettuata
+    <div class="no-ricerca" v-if="ricerca.length == 0">
+        <p>Nessuna ricerca ancora effettuata</p>
     </div>
-    <div v-else>
+    <div class="ricerca" v-else>
         <section class="film-container" v-if="resultsFilm.length > 0">
             <h2>Film</h2>
             <ResultFilm
@@ -11,7 +11,9 @@
                 :item="resultFilm"
             />
         </section>
-        <section v-else>Film non trovati</section>
+        <section class="no-risultati" v-else>
+            <p>Nessun film trovato</p>
+        </section>
 
         <section class="serietv-container" v-if="resultsSerieTv.length > 0">
             <h2>Serie Tv</h2>
@@ -21,7 +23,9 @@
                 :item="resultSerieTv"
             />
         </section>
-        <section v-else>Serie Tv non trovate</section>
+        <section class="no-risultati" v-else>
+            <p>Nessuna serie tv trovata</p>
+        </section>
         
     </div>
 </template>
@@ -87,11 +91,53 @@ export default {
 section {
     display: flex;
     flex-wrap: wrap;
-    margin: 20px 0;
+    padding: 20px 0;
     h2 {
         width: 100%;
         text-align: center;
         margin: 20px;
+        font-size: 35px;
+        text-transform: uppercase;
     }
+}
+
+
+
+.no-ricerca {
+    width: 100vw;
+    height: calc(100vh - 60px);
+    background-color: grey;
+    position: relative;
+}
+
+.no-ricerca > p {
+    position: absolute;
+    transform: translate(-50%, -50%);
+    top: 50%;
+    left: 50%;
+    font-weight: 700;
+    text-transform: uppercase;
+    font-size: 30px;
+    text-align: center;
+}
+
+.ricerca {
+    background-color: grey;
+    height: 100%;
+    min-height: calc(100vh - 60px);
+}
+
+.no-risultati {
+    justify-content: center;
+    & > p {
+        text-transform: uppercase;
+        font-size: 30px;
+        font-weight: 700;
+    }
+}
+
+.film-container,
+.serietv-container {
+    justify-content: center;
 }
 </style>
