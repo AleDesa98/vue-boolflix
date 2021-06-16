@@ -1,6 +1,7 @@
 <template>
     <div class="card-serietv">
-        <img :src="`https://image.tmdb.org/t/p/w342${item.poster_path}`" alt="">
+        <img v-if="item.poster_path != null" :src="`https://image.tmdb.org/t/p/w342${item.poster_path}`" alt="">
+        <img v-else src="../assets/img/no-copertina.png" alt="">
         <div class="card-info">
             <h5>Titolo: <span>{{item.name}}</span></h5>
             <h6>Titolo originale: <span>{{item.original_name}}</span></h6>
@@ -12,12 +13,16 @@
             </h6>
             <h6>
                 Voto: 
-                <span v-if="Math.round(item.vote_average / 2) == 0"><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i></span>
-                <span v-else-if="Math.round(item.vote_average / 2) == 1"><i class="fas fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i></span>
-                <span v-else-if="Math.round(item.vote_average / 2) == 2"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i></span>
-                <span v-else-if="Math.round(item.vote_average / 2) == 3"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i></span>
-                <span v-else-if="Math.round(item.vote_average / 2) == 4"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i></span>
-                <span v-else-if="Math.round(item.vote_average / 2) == 5"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></span>
+                <span>
+                    <i class="fas fa-star"
+                    v-for="index in stars" :key="index"
+                    ></i>
+                </span>
+                <span>
+                    <i  v-for="index in (5 - stars)" 
+                        :key="index" 
+                        class="far fa-star"></i>
+                </span>
             </h6>
         </div>
     </div>
@@ -26,6 +31,11 @@
 <script>
 export default {
     name: 'ResultSerieTv',
+    data() {
+        return {
+            stars: Math.round(this.item.vote_average / 2)
+        }
+    },
     props: {
         item: Object
     }
